@@ -19,15 +19,13 @@ public class AdminController {
 	ITournamentService tournamentService;
 
 	@PatchMapping("/tournaments/posts")
-	public ResponseEntity<String> updatePostStatus(@RequestParam("status") String status,
-			@RequestParam("tournamentId") String tournamentId) {
-
+	public ResponseEntity<String> updatePostStatus(@RequestParam("status") String status, @RequestParam("tournamentId") String tournamentId) {
+		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "posting tournament data");
 		tournamentService.updatePostStatus(tournamentId, status);
-		String msg = "Post status updated";
-		ResponseEntity<String> responseUpdateStatus = new ResponseEntity<String>(msg, HttpStatus.CREATED);
-		return responseUpdateStatus;
+		String message = "Post status updated";
+		return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(message);
 	}
 
 }

@@ -18,7 +18,7 @@ import com.dreamtournaments.services.ITournamentService;
 
 @RestController
 @RequestMapping("/dream-tournaments")
-public class UserController {
+public class TournamentController {
 
 	@Autowired
 	ITournamentService tournamentService;
@@ -29,9 +29,8 @@ public class UserController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "posting tournament data");
 		tournamentService.postTournament(tournament);
-		String msg = "This post is being verified and it will be live soon";
-		ResponseEntity<String> responsePostTournament = new ResponseEntity<String>(msg, HttpStatus.CREATED);
-		return responsePostTournament;
+		String message = "This post is being verified and it will be live soon";
+		return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(message);
 
 	}
 
@@ -41,20 +40,16 @@ public class UserController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "tournaments data for given status");
 		List<Tournament> mTournamnets = tournamentService.getTournamentsByPostStaus(postStatus);
-		ResponseEntity<List<Tournament>> responseTournaments = new ResponseEntity<List<Tournament>>(mTournamnets,
-				HttpStatus.OK);
-		return responseTournaments;
+		return ResponseEntity.status(HttpStatus.OK).headers(headers).body(mTournamnets);
 	}
-	
+
 	@GetMapping("/tournament/posts")
 	public ResponseEntity<List<Tournament>> getTournamentsByTitle(@RequestParam("title") String title) {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "tournaments data for given title");
 		List<Tournament> mTournamnets = tournamentService.getTournamentsByTitle(title);
-		ResponseEntity<List<Tournament>> responseTournaments = new ResponseEntity<List<Tournament>>(mTournamnets,
-				HttpStatus.OK);
-		return responseTournaments;
+		return ResponseEntity.status(HttpStatus.OK).headers(headers).body(mTournamnets);
 	}
 
 }
