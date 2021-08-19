@@ -1,11 +1,11 @@
 package com.dreamtournaments.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import com.dreamtournaments.exception.TournamentNotFoundException;
 import com.dreamtournaments.models.Tournament;
@@ -38,7 +38,22 @@ public class TournamentServiceImpl implements ITournamentService {
 	}
 
 	@Override
-	public void registerForTournament(TournamentRegistration tournamentRegistration) {
+	public void registerForTournament(TournamentRegistration tournamentRegistrationData, String tournamentId) {
+
+		Optional<Tournament> tournament = iTournamentRepository.findById(tournamentId);
+
+		if (tournament.isEmpty())
+			throw new TournamentNotFoundException("invalid tournament id.");
+
+		if (!(tournament.get().getRegistrations() == null))
+			tournament.get().getRegistrations().add(tournamentRegistrationData);
+		else {
+			List<TournamentRegistration> tournamentRegistrationsList = new ArrayList<>();
+			tournamentRegistrationsList.add(tournamentRegistrationData);
+			tournament.get().setRegistrations(tournamentRegistrationsList);
+		}
+
+		iTournamentRepository.save(tournament.get());
 
 	}
 
@@ -61,16 +76,16 @@ public class TournamentServiceImpl implements ITournamentService {
 		List<Tournament> tournaments = iTournamentRepository.findByPostStatus(postStaus);
 
 		if (tournaments.isEmpty())
-			throw new TournamentNotFoundException("No tournments found with status "+postStaus);
+			throw new TournamentNotFoundException("No tournments found with status " + postStaus);
 
 		return tournaments;
 
 	}
 
 	@Override
-	public List<Tournament> getTournamentsByTitle(String tournamentTitle) {
-		// TODO Auto-generated method stub
-		List<Tournament> tournaments= iTournamentRepository.findByTitle(tournamentTitle);
+	public List<Tournament> getTournamentByTournamentRegex(String searchString) {
+
+		List<Tournament> tournaments = iTournamentRepository.findByTournamentByRegex(searchString);
 
 		if (tournaments.isEmpty())
 			throw new TournamentNotFoundException("No tournaments found with this title.");
@@ -79,8 +94,15 @@ public class TournamentServiceImpl implements ITournamentService {
 	}
 
 	@Override
-	public List<Tournament> getTournamentByAddress(String address) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<TournamentRegistration> getTournamentsRegistrations(String tournamentId) {
+
+		Optional<Tournament> tournament = iTournamentRepository.findById(tournamentId);
+
+		if (tournament.isEmpty())
+			throw new TournamentNotFoundException("invalid tournament id.");
+
+		List<TournamentRegistration> tournamentRegistrations = tournament.get().getRegistrations();
+		return tournamentRegistrations;
 	}
+
 }

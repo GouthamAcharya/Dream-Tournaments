@@ -20,8 +20,7 @@ public class SportsClub {
 	List<String> clubRules;
 	String clubDescription;
 	Address clubAddress;
-	long phoneNumber;
-	boolean accepted;
-	float clubRatings;
+	List<String> contactDetails;
+	String postStatus;
 
 }

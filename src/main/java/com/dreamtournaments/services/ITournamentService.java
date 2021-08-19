@@ -10,17 +10,17 @@ public interface ITournamentService {
 
 	void postTournament(Tournament tournament);
 	
-	List<Tournament> getTournamentsByTitle(String tournamentTitle);
-	
-	List<Tournament> getTournamentByAddress(String address);
-	
 	void deleteTournament(String tournamentId);
 	
 	void updateTournament(Tournament tournament);
 	
-	void registerForTournament(TournamentRegistration tournamentRegistration);
+	void registerForTournament(TournamentRegistration tournamentRegistration, String tournamentId);
 	
 	void updatePostStatus(String tournamentId, String postStatus);
 	
 	List<Tournament> getTournamentsByPostStaus(String postStaus);
+	
+	List<Tournament> getTournamentByTournamentRegex(String searchString);
+	
+	List<TournamentRegistration> getTournamentsRegistrations(String tournamentId);
 }
