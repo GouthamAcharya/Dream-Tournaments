@@ -1,22 +1,40 @@
 package com.dreamtournaments.models;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Document(collection = "users")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class User {
 
+	public User(String username, String email, String password) {
+		super();
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		
+	}
+
 	@Id
-	String _id;
-	String username;
-	@Indexed
-	String email;
-	long ContactNumber;
+	private String id;
+	
+	private String username;
+	
+	private String email;
+	
+	private String password;
+	
+	@DBRef
+	private Set<Role> roles = new HashSet<>();
 	
 }

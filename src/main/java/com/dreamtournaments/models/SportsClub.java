@@ -2,19 +2,20 @@ package com.dreamtournaments.models;
 
 import java.util.List;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@Document(collection = "sportsClubs")
 @NoArgsConstructor
 @Data
 public class SportsClub {
 
 	@Id
 	String _id;
-	String userId;
 	String clubImgPath;
 	String clubName;
 	List<String> clubRules;
@@ -22,5 +23,6 @@ public class SportsClub {
 	Address clubAddress;
 	List<String> contactDetails;
 	String postStatus;
+	List<SportsClubRegistration> registrations;
 
 }

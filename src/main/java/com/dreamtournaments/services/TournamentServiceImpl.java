@@ -27,7 +27,10 @@ public class TournamentServiceImpl implements ITournamentService {
 	@Override
 	public void deleteTournament(String tournamentId) {
 
-		iTournamentRepository.deleteById(tournamentId);
+		if (iTournamentRepository.existsById(tournamentId))
+			iTournamentRepository.deleteById(tournamentId);
+		else
+			throw new TournamentNotFoundException("No tournament found with this id");
 
 	}
 
@@ -58,7 +61,7 @@ public class TournamentServiceImpl implements ITournamentService {
 	}
 
 	@Override
-	public void updatePostStatus(String tournamentId, String postStatus) {
+	public void updateTournamentPostStatus(String tournamentId, String postStatus) {
 
 		Optional<Tournament> tournament = iTournamentRepository.findById(tournamentId);
 
@@ -103,6 +106,26 @@ public class TournamentServiceImpl implements ITournamentService {
 
 		List<TournamentRegistration> tournamentRegistrations = tournament.get().getRegistrations();
 		return tournamentRegistrations;
+	}
+
+	@Override
+	public List<Tournament> getAllTournaments() {
+		List<Tournament> tournaments = iTournamentRepository.findAll();
+
+		if (tournaments.isEmpty())
+			throw new TournamentNotFoundException("No tournaments found");
+
+		return tournaments;
+	}
+
+	@Override
+	public Tournament getTournamentById(String tournamentId) {
+		Optional<Tournament> tournament = iTournamentRepository.findById(tournamentId);
+
+		if (tournament.isEmpty())
+			throw new TournamentNotFoundException("invalid tournament id.");
+
+		return tournament.get();
 	}
 
 }

@@ -16,11 +16,15 @@ public interface ITournamentService {
 	
 	void registerForTournament(TournamentRegistration tournamentRegistration, String tournamentId);
 	
-	void updatePostStatus(String tournamentId, String postStatus);
+	void updateTournamentPostStatus(String tournamentId, String postStatus);
+	
+	Tournament getTournamentById(String tournamentId);
 	
 	List<Tournament> getTournamentsByPostStaus(String postStaus);
 	
 	List<Tournament> getTournamentByTournamentRegex(String searchString);
 	
 	List<TournamentRegistration> getTournamentsRegistrations(String tournamentId);
+	
+	List<Tournament> getAllTournaments();
 }
