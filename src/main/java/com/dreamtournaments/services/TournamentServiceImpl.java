@@ -16,19 +16,19 @@ import com.dreamtournaments.repository.ITournamentRepository;
 public class TournamentServiceImpl implements ITournamentService {
 
 	@Autowired
-	ITournamentRepository iTournamentRepository;
+	ITournamentRepository tournamentRepository;
 
 	@Override
 	public void postTournament(Tournament tournament) {
 
-		iTournamentRepository.insert(tournament);
+		tournamentRepository.insert(tournament);
 	}
 
 	@Override
 	public void deleteTournament(String tournamentId) {
 
-		if (iTournamentRepository.existsById(tournamentId))
-			iTournamentRepository.deleteById(tournamentId);
+		if (tournamentRepository.existsById(tournamentId))
+			tournamentRepository.deleteById(tournamentId);
 		else
 			throw new TournamentNotFoundException("No tournament found with this id");
 
@@ -37,13 +37,13 @@ public class TournamentServiceImpl implements ITournamentService {
 	@Override
 	public void updateTournament(Tournament tournament) {
 
-		iTournamentRepository.save(tournament);
+		tournamentRepository.save(tournament);
 	}
 
 	@Override
 	public void registerForTournament(TournamentRegistration tournamentRegistrationData, String tournamentId) {
 
-		Optional<Tournament> tournament = iTournamentRepository.findById(tournamentId);
+		Optional<Tournament> tournament = tournamentRepository.findById(tournamentId);
 
 		if (tournament.isEmpty())
 			throw new TournamentNotFoundException("invalid tournament id.");
@@ -56,27 +56,27 @@ public class TournamentServiceImpl implements ITournamentService {
 			tournament.get().setRegistrations(tournamentRegistrationsList);
 		}
 
-		iTournamentRepository.save(tournament.get());
+		tournamentRepository.save(tournament.get());
 
 	}
 
 	@Override
 	public void updateTournamentPostStatus(String tournamentId, String postStatus) {
 
-		Optional<Tournament> tournament = iTournamentRepository.findById(tournamentId);
+		Optional<Tournament> tournament = tournamentRepository.findById(tournamentId);
 
 		if (tournament.isEmpty())
 			throw new TournamentNotFoundException("Tournament not found.");
 
 		tournament.get().setPostStatus(postStatus);
-		iTournamentRepository.save(tournament.get());
+		tournamentRepository.save(tournament.get());
 
 	}
 
 	@Override
 	public List<Tournament> getTournamentsByPostStaus(String postStaus) {
 
-		List<Tournament> tournaments = iTournamentRepository.findByPostStatus(postStaus);
+		List<Tournament> tournaments = tournamentRepository.findByPostStatus(postStaus);
 
 		if (tournaments.isEmpty())
 			throw new TournamentNotFoundException("No tournments found with status " + postStaus);
@@ -88,7 +88,7 @@ public class TournamentServiceImpl implements ITournamentService {
 	@Override
 	public List<Tournament> getTournamentByTournamentRegex(String searchString) {
 
-		List<Tournament> tournaments = iTournamentRepository.findByTournamentByRegex(searchString);
+		List<Tournament> tournaments = tournamentRepository.findByTournamentByRegex(searchString);
 
 		if (tournaments.isEmpty())
 			throw new TournamentNotFoundException("No tournaments found with this title.");
@@ -99,7 +99,7 @@ public class TournamentServiceImpl implements ITournamentService {
 	@Override
 	public List<TournamentRegistration> getTournamentsRegistrations(String tournamentId) {
 
-		Optional<Tournament> tournament = iTournamentRepository.findById(tournamentId);
+		Optional<Tournament> tournament = tournamentRepository.findById(tournamentId);
 
 		if (tournament.isEmpty())
 			throw new TournamentNotFoundException("invalid tournament id.");
@@ -110,7 +110,7 @@ public class TournamentServiceImpl implements ITournamentService {
 
 	@Override
 	public List<Tournament> getAllTournaments() {
-		List<Tournament> tournaments = iTournamentRepository.findAll();
+		List<Tournament> tournaments = tournamentRepository.findAll();
 
 		if (tournaments.isEmpty())
 			throw new TournamentNotFoundException("No tournaments found");
@@ -120,7 +120,7 @@ public class TournamentServiceImpl implements ITournamentService {
 
 	@Override
 	public Tournament getTournamentById(String tournamentId) {
-		Optional<Tournament> tournament = iTournamentRepository.findById(tournamentId);
+		Optional<Tournament> tournament = tournamentRepository.findById(tournamentId);
 
 		if (tournament.isEmpty())
 			throw new TournamentNotFoundException("invalid tournament id.");

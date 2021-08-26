@@ -20,10 +20,10 @@ import com.dreamtournaments.services.ITournamentService;
 public class AdminController {
 
 	@Autowired
-	ITournamentService iTournamentService;
+	ITournamentService tournamentService;
 
 	@Autowired
-	ISportsClubService iSportsClubService;
+	ISportsClubService sportsClubService;
 
 	@PatchMapping("/tournaments/posts/{tournamentId}")
 	public ResponseEntity<String> updateTournamentPostStatus(@RequestParam("status") String status,
@@ -31,7 +31,7 @@ public class AdminController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "updating tournament post status");
-		iTournamentService.updateTournamentPostStatus(tournamentId, status);
+		tournamentService.updateTournamentPostStatus(tournamentId, status);
 		String message = "Post status updated";
 		return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(message);
 	}
@@ -42,7 +42,7 @@ public class AdminController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "updating sports club post status");
-		iSportsClubService.updateSportsClubStatus(sportsClubId, status);
+		sportsClubService.updateSportsClubStatus(sportsClubId, status);
 		String message = "Post status updated";
 		return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(message);
 	}

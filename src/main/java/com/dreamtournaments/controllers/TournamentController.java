@@ -25,14 +25,14 @@ import com.dreamtournaments.services.ITournamentService;
 public class TournamentController {
 
 	@Autowired
-	ITournamentService iTournamentService;
+	ITournamentService tournamentService;
 
 	@PostMapping("/tournament/posts")
 	public ResponseEntity<String> postTournament(@RequestBody Tournament tournament) {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "posting tournament data");
-		iTournamentService.postTournament(tournament);
+		tournamentService.postTournament(tournament);
 		String message = "This post is being verified and it will be live soon";
 		return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(message);
 	}
@@ -43,7 +43,7 @@ public class TournamentController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "registering for the tournament");
-		iTournamentService.registerForTournament(tournamentRegisterData, tournamentId);
+		tournamentService.registerForTournament(tournamentRegisterData, tournamentId);
 		String message = "Registration successfull";
 		return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(message);
 
@@ -54,7 +54,7 @@ public class TournamentController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "fetching all tournaments data");
-		List<Tournament> mTournaments = iTournamentService.getAllTournaments();
+		List<Tournament> mTournaments = tournamentService.getAllTournaments();
 		return ResponseEntity.status(HttpStatus.OK).headers(headers).body(mTournaments);
 	}
 
@@ -63,7 +63,7 @@ public class TournamentController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "tournaments data for given status");
-		List<Tournament> mTournaments = iTournamentService.getTournamentsByPostStaus(postStatus);
+		List<Tournament> mTournaments = tournamentService.getTournamentsByPostStaus(postStatus);
 		return ResponseEntity.status(HttpStatus.OK).headers(headers).body(mTournaments);
 	}
 
@@ -72,7 +72,7 @@ public class TournamentController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "fetching all tournaments data");
-		Tournament mTournament = iTournamentService.getTournamentById(tournamentId);
+		Tournament mTournament = tournamentService.getTournamentById(tournamentId);
 		return ResponseEntity.status(HttpStatus.OK).headers(headers).body(mTournament);
 	}
 
@@ -81,7 +81,7 @@ public class TournamentController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "tournaments data for given input");
-		List<Tournament> mTournaments = iTournamentService.getTournamentByTournamentRegex(searchString);
+		List<Tournament> mTournaments = tournamentService.getTournamentByTournamentRegex(searchString);
 		return ResponseEntity.status(HttpStatus.OK).headers(headers).body(mTournaments);
 	}
 
@@ -91,7 +91,7 @@ public class TournamentController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "tournament registrations data");
-		List<TournamentRegistration> mRegistrations = iTournamentService.getTournamentsRegistrations(tournamentId);
+		List<TournamentRegistration> mRegistrations = tournamentService.getTournamentsRegistrations(tournamentId);
 		return ResponseEntity.status(HttpStatus.OK).headers(headers).body(mRegistrations);
 
 	}

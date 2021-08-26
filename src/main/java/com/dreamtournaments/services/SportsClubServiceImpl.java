@@ -16,19 +16,19 @@ import com.dreamtournaments.repository.ISportsClubRepository;
 public class SportsClubServiceImpl implements ISportsClubService {
 
 	@Autowired
-	ISportsClubRepository iSportsClubRepository;
+	ISportsClubRepository sportsClubRepository;
 
 	@Override
 	public void postSportsClub(SportsClub sportsClub) {
 
-		iSportsClubRepository.insert(sportsClub);
+		sportsClubRepository.insert(sportsClub);
 	}
 
 	@Override
 	public void deleteSportsClub(String sportsClubId) {
 
-		if (iSportsClubRepository.existsById(sportsClubId))
-			iSportsClubRepository.deleteById(sportsClubId);
+		if (sportsClubRepository.existsById(sportsClubId))
+			sportsClubRepository.deleteById(sportsClubId);
 		else
 			throw new SportsClubNotFoundException("No sports club found with this id");
 	}
@@ -36,13 +36,13 @@ public class SportsClubServiceImpl implements ISportsClubService {
 	@Override
 	public void updateSportsClub(SportsClub sportsClub) {
 
-		iSportsClubRepository.save(sportsClub);
+		sportsClubRepository.save(sportsClub);
 	}
 
 	@Override
 	public void registerForSportsClub(SportsClubRegistration sportsClubRegistration, String sportsClubId) {
 
-		Optional<SportsClub> sportsClub = iSportsClubRepository.findById(sportsClubId);
+		Optional<SportsClub> sportsClub = sportsClubRepository.findById(sportsClubId);
 
 		if (sportsClub.isEmpty())
 			throw new SportsClubNotFoundException("invalid sports club id.");
@@ -55,25 +55,25 @@ public class SportsClubServiceImpl implements ISportsClubService {
 			sportsClub.get().setRegistrations(sportsClubRegistrationsList);
 		}
 
-		iSportsClubRepository.save(sportsClub.get());
+		sportsClubRepository.save(sportsClub.get());
 	}
 
 	@Override
 	public void updateSportsClubStatus(String sportsClubId, String postStatus) {
 
-		Optional<SportsClub> sportsClub = iSportsClubRepository.findById(sportsClubId);
+		Optional<SportsClub> sportsClub = sportsClubRepository.findById(sportsClubId);
 
 		if (sportsClub.isEmpty())
 			throw new SportsClubNotFoundException("Sports club not found.");
 
 		sportsClub.get().setPostStatus(postStatus);
-		iSportsClubRepository.save(sportsClub.get());
+		sportsClubRepository.save(sportsClub.get());
 	}
 
 	@Override
 	public List<SportsClub> getSportsClubByPostStaus(String postStaus) {
 
-		List<SportsClub> sportsClub = iSportsClubRepository.findByPostStatus(postStaus);
+		List<SportsClub> sportsClub = sportsClubRepository.findByPostStatus(postStaus);
 
 		if (sportsClub.isEmpty())
 			throw new SportsClubNotFoundException("No sports club found with status " + postStaus);
@@ -84,7 +84,7 @@ public class SportsClubServiceImpl implements ISportsClubService {
 	@Override
 	public List<SportsClub> getSportsClubByRegex(String searchString) {
 
-		List<SportsClub> sportsClubs = iSportsClubRepository.findBySportsClubByRegex(searchString);
+		List<SportsClub> sportsClubs = sportsClubRepository.findBySportsClubByRegex(searchString);
 
 		if (sportsClubs.isEmpty())
 			throw new SportsClubNotFoundException("No sports clubs found with this title.");
@@ -95,7 +95,7 @@ public class SportsClubServiceImpl implements ISportsClubService {
 	@Override
 	public List<SportsClubRegistration> getSportsClubRegistrations(String sportsClubId) {
 
-		Optional<SportsClub> sportsClub = iSportsClubRepository.findById(sportsClubId);
+		Optional<SportsClub> sportsClub = sportsClubRepository.findById(sportsClubId);
 
 		if (sportsClub.isEmpty())
 			throw new SportsClubNotFoundException("invalid sports club id.");

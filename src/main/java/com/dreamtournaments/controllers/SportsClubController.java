@@ -23,14 +23,14 @@ import com.dreamtournaments.services.ISportsClubService;
 public class SportsClubController {
 
 	@Autowired
-	ISportsClubService iSportsClubService;
+	ISportsClubService sportsClubService;
 
 	@PostMapping("/sports-club/posts")
 	public ResponseEntity<String> postSportsClub(@RequestBody SportsClub sportsClub) {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "posting sports club data");
-		iSportsClubService.postSportsClub(sportsClub);
+		sportsClubService.postSportsClub(sportsClub);
 		String message = "This post is being verified and it will be live soon";
 		return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(message);
 	}
@@ -41,7 +41,7 @@ public class SportsClubController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "registering for the sports club");
-		iSportsClubService.registerForSportsClub(sportsClubRegistration, sportsClubId);
+		sportsClubService.registerForSportsClub(sportsClubRegistration, sportsClubId);
 		String message = "Registration successfull";
 		return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(message);
 
@@ -52,7 +52,7 @@ public class SportsClubController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "sports club data for given status");
-		List<SportsClub> mSportsClub = iSportsClubService.getSportsClubByPostStaus(postStatus);
+		List<SportsClub> mSportsClub = sportsClubService.getSportsClubByPostStaus(postStatus);
 		return ResponseEntity.status(HttpStatus.OK).headers(headers).body(mSportsClub);
 	}
 
@@ -61,7 +61,7 @@ public class SportsClubController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "sports club data for given input");
-		List<SportsClub> mSportsClub = iSportsClubService.getSportsClubByRegex(searchString);
+		List<SportsClub> mSportsClub = sportsClubService.getSportsClubByRegex(searchString);
 		return ResponseEntity.status(HttpStatus.OK).headers(headers).body(mSportsClub);
 	}
 
@@ -71,7 +71,7 @@ public class SportsClubController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("description", "sports club registrations data");
-		List<SportsClubRegistration> mRegistrations = iSportsClubService.getSportsClubRegistrations(sportsClubId);
+		List<SportsClubRegistration> mRegistrations = sportsClubService.getSportsClubRegistrations(sportsClubId);
 		return ResponseEntity.status(HttpStatus.OK).headers(headers).body(mRegistrations);
 
 	}

@@ -2,8 +2,6 @@ package com.dreamtournaments.services;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.dreamtournaments.models.SportsClub;
 import com.dreamtournaments.models.SportsClubRegistration;
 
